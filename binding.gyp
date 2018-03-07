@@ -1,7 +1,7 @@
 {
 	'variables': {
-		'core_library%': "../../lib-ledger-core-build",
-		'run_path%': "../lib-ledger-core-build/core/src",
+		'core_library%': "../bin/mac",
+		'run_path%': "bin/mac",
 	},
 	'targets': [{
 		'target_name': 'ledgerapp_nodejs',
@@ -17,7 +17,7 @@
 				"<!(node -e \"require('nan')\")"
 			],
 		},
-		'libraries': ['-Wl,-rpath,<!(pwd)/<@(run_path)', '-L<@(core_library)/core/src', '-lledger-core'],
+		'libraries': ['-Wl,-rpath,<!(pwd)/<@(run_path)', '-L<@(core_library)', '-lledger-core'],
 		'conditions': [
 			['OS=="mac"', {
 				'LDFLAGS': [
