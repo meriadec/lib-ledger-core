@@ -5,6 +5,10 @@ jobs:
       - image: debian:stretch
     steps:
       - checkout
+      - type: shell
+              shell: /bin/sh
+              pwd: /
+              command: apk -U add git openssh
       - run: git submodule sync
       - run: git submodule update --init
       - run:
