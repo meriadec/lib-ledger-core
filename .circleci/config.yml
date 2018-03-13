@@ -5,9 +5,8 @@ jobs:
       - image: debian:stretch
     steps:
       - checkout
-      - post:
-          - git submodule sync
-          - git submodule update --init
+      - run: git submodule sync
+      - run: git submodule update --init
       - run:
           name: qt5
           command: wget http://download.qt.io/official_releases/qt/5.7/5.7.0/qt-opensource-linux-x64-5.7.0.run
