@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const path = require('path');
 
-const MAX_RANDOM = 2684869021
+const MAX_RANDOM = 2684869033 //Ci-test
 
 const binding = require('bindings')('ledgerapp_nodejs');
 
