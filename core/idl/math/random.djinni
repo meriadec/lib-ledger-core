@@ -1,6 +1,8 @@
-
-
+# Class to generate random numbers
 RandomNumberGenerator = interface +j +o +n {
+   # Generates random bytes.
+   # @params i Value to be subtracted to this BigInt
+   # @return The result of this - i
     getRandomBytes(size: i32): binary;
     getRandomInt(): i32;
     getRandomLong(): i64;
