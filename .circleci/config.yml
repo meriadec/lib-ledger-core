@@ -14,11 +14,8 @@ jobs:
           command: git --version
       - run: git submodule init
       - run:
-          name: create build directory
-          command: cd .. && mkdir lib-ledger-core-build
-      - run:
-          name: build
-          command: cd lib-ledger-core-build && pwd && cmake -DCMAKE_INSTALL_PREFIX=/root ../lib-ledger-core && make
+          command: |
+            . .circleci/build_lib.sh
       - run:
           name: build module
           command: yarn
