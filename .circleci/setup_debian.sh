@@ -2,8 +2,7 @@
 
 echo "========> Install basic config"
 apt-get update
-apt-get install -y apt-transport-https wget curl git build-essential libx11-xcb-dev
-
+apt-get install -y apt-transport-https wget curl git python build-essential libx11-xcb-dev
 
 echo "========> Install C++ dependencies"
 apt-get install -y g++ make cmake
