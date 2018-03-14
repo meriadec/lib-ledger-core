@@ -6,7 +6,7 @@ apt-get install -y g++ make cmake wget curl yarn nodejs git build-essential libx
 
 
 echo "========> Install node"
-curl -sL https://deb.nodesource.com/setup_9.x | -E bash -
+curl -sL https://deb.nodesource.com/setup_9.x 
 apt-get install -y nodejs
 
 echo "========> Install yarn"
