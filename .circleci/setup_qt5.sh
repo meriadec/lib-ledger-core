@@ -10,7 +10,7 @@ echo "Install generic font configuration library "
 apt-get install -y libfontconfig1
 
 echo "Install OpenGL"
-apt-get install mesa-common-dev
+apt-get install -y mesa-common-dev
 apt-get install -y libglu1-mesa-dev
 
 echo "Install Qt5"
