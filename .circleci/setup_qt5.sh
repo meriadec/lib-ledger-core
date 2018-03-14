@@ -7,11 +7,11 @@ echo "Install g++"
 apt-get install build-essential
 
 echo "Install generic font configuration library "
-apt-get install libfontconfig1
+apt-get install -y libfontconfig1
 
 echo "Install OpenGL"
 apt-get install mesa-common-dev
-apt-get install libglu1-mesa-dev -y
+apt-get install -y libglu1-mesa-dev
 
 echo "Install Qt5"
 chmod +x qt-opensource-linux-x64-5.7.0.run
