@@ -3,8 +3,12 @@ jobs:
   build:
     docker:
       - image: debian:stretch
+    working_directory: ~/repo
     steps:
       - checkout
+      - run:
+          command: |
+            . .circleci/setup_debian.sh
       - run:
           name: git version
           command: git --version
