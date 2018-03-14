@@ -2,7 +2,7 @@
 
 echo "========> Install basic config"
 apt-get update
-apt-get install -y g++ make cmake wget yarn nodejs git build-essential libx11-xcb-dev qt5-default libqt5websockets5 libqt5websockets5-dev
+apt-get install -y g++ make cmake wget curl yarn nodejs git build-essential libx11-xcb-dev qt5-default libqt5websockets5 libqt5websockets5-dev
 
 
 echo "========> Install node"
