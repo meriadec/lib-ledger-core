@@ -13,6 +13,7 @@
 #chmod +x qt-opensource-linux-x64-5.7.0.run
 #./qt-opensource-linux-x64-5.7.0.run
 
+cd ..
 echo "Install Qt5 dependencies"
 apt-get install -y libxcb*
 apt-get install -y libx11-xcb-dev
@@ -28,7 +29,7 @@ echo "Add Qt5 au Path"
 export PATH=$PWD/qtbase/bin:$PATH
 
 echo "Configurate Qt5"
-./configure -nomake examples -nomake demos -nomake tests 
+./configure -nomake examples -nomake tests
 
 echo "Build Qt5"
 make -j3
