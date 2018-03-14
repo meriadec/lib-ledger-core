@@ -13,7 +13,6 @@ jobs:
           name: git version
           command: git --version
       - run: git submodule init
-      - run: git submodule update --remote
       - run:
           name: qt5
           command: wget http://download.qt.io/official_releases/qt/5.7/5.7.0/qt-opensource-linux-x64-5.7.0.run
