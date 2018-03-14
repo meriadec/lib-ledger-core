@@ -28,7 +28,7 @@ echo "Add Qt5 au Path"
 export PATH=$PWD/qtbase/bin:$PATH
 
 echo "Configurate Qt5"
-./configure -nomake examples -nomake demos -nomake tests -no-gtkstyle
+./configure -nomake examples -nomake demos -nomake tests 
 
 echo "Build Qt5"
 make -j3
