@@ -6,8 +6,8 @@ apt-get install -y g++ make cmake wget yarn nodejs git build-essential libx11-xc
 
 
 echo "========> Install node"
-curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
-sudo apt-get install -y nodejs
+curl -sL https://deb.nodesource.com/setup_9.x | -E bash -
+apt-get install -y nodejs
 
 echo "========> Install yarn"
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
