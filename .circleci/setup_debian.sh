@@ -2,11 +2,17 @@
 
 echo "========> Install basic config"
 apt-get update
-apt-get install -y g++ make cmake wget curl yarn nodejs git build-essential libx11-xcb-dev qt5-default libqt5websockets5 libqt5websockets5-dev
+apt-get install -y apt-transport-https wget curl git build-essential libx11-xcb-dev
 
+
+echo "========> Install C++ dependencies"
+apt-get install -y g++ make cmake
+
+echo "========> Install Qt5"
+apt-get install -y qt5-default libqt5websockets5 libqt5websockets5-dev
 
 echo "========> Install node"
-curl -sL https://deb.nodesource.com/setup_9.x 
+curl -sL https://deb.nodesource.com/setup_9.x
 apt-get install -y nodejs
 
 echo "========> Install yarn"
