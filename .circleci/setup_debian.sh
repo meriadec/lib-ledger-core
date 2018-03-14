@@ -8,12 +8,13 @@ apt-get install -y apt-transport-https wget curl git build-essential libx11-xcb-
 echo "========> Install C++ dependencies"
 apt-get install -y g++ make cmake
 
-echo "========> Install Qt5"
-apt-get install -y qt5-default libqt5websockets5 libqt5websockets5-dev
+#echo "========> Install Qt5"
+#apt-get install -y qt5-default libqt5websockets5 libqt5websockets5-dev
 
 echo "========> Install node"
 curl -sL https://deb.nodesource.com/setup_9.x
 apt-get install -y nodejs
+ln -s /usr/bin/nodejs /usr/bin/node
 
 echo "========> Install yarn"
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
