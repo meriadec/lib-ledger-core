@@ -14,10 +14,6 @@ jobs:
           command: git --version
       - run: git submodule init
       - run:
-          name: qt5
-          command: |
-            . .circleci/setup_qt5.sh
-      - run:
           name: create build directory
           command: cd .. && mkdir lib-ledger-core-build && cd lib-ledger-core-build
       - run:
