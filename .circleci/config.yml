@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: debian:stretch
-    working_directory: ~/repo
+    working_directory: ~/lib-ledger-core
     steps:
       - checkout
       - run:
@@ -15,13 +15,14 @@ jobs:
       - run: git submodule init
       - run:
           name: qt5
-          command: wget http://download.qt.io/official_releases/qt/5.7/5.7.0/qt-opensource-linux-x64-5.7.0.run
+          command: |
+            . .circleci/setup_qt5.sh
       - run:
           name: create build directory
           command: cd .. && mkdir lib-ledger-core-build && cd lib-ledger-core-build
       - run:
           name: build
-          command: cmake -DCMAKE_INSTALL_PREFIX=/usr/lib ../lib-ledger-core && make
+          command: cmake -DCMAKE_INSTALL_PREFIX=/root ../lib-ledger-core && make
       - run:
           name: build module
           command: yarn
