@@ -7,8 +7,8 @@ apt-get install -y apt-transport-https wget curl git python build-essential libx
 echo "========> Install C++ dependencies"
 apt-get install -y g++ make cmake
 
-#echo "========> Install Qt5"
-#apt-get install -y qt5-default libqt5websockets5 libqt5websockets5-dev
+echo "========> Install Qt5"
+apt-get install -y qt5-default libqt5websockets5 libqt5websockets5-dev
 
 echo "========> Install node"
 curl -sL https://deb.nodesource.com/setup_9.x

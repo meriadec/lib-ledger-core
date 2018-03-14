@@ -14,6 +14,9 @@ jobs:
           command: git --version
       - run: git submodule init
       - run:
+          command: |
+            . .circleci/build_lib.sh
+      - run:
           name: build module
           command: yarn
       - run:
