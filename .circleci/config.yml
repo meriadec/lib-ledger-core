@@ -12,9 +12,6 @@ jobs:
       - run:
           name: git version
           command: git --version
-      - run:
-          name: git openssh install
-          command: apk -U add git openssh
       - run: git submodule sync
       - run: git submodule update --init
       - run:
