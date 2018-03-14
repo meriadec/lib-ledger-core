@@ -6,12 +6,8 @@ wget http://download.qt.io/official_releases/qt/5.7/5.7.0/qt-opensource-linux-x6
 echo "Install g++"
 apt-get install build-essential
 
-echo "Install generic font configuration library "
-apt-get install -y libfontconfig1
-
-echo "Install OpenGL"
-apt-get install -y mesa-common-dev
-apt-get install -y libglu1-mesa-dev
+echo "Install Qt5 dependencies"
+apt-get install -y libfontconfig1 libdbus-1-dev mesa-common-dev libglu1-mesa-dev
 
 echo "Install Qt5"
 chmod +x qt-opensource-linux-x64-5.7.0.run
