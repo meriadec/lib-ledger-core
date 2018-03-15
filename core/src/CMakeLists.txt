@@ -203,7 +203,7 @@ target_link_libraries(ledger-core fmt)
 target_link_libraries(ledger-core crypto)
 target_link_libraries(ledger-core sqlite3)
 target_link_libraries(ledger-core soci_sqlite3)
-target_link_libraries(ledger-core soci_core)
+target_link_libraries(ledger-core soci_core_static)
 target_link_libraries(ledger-core leveldb)
 target_link_libraries(ledger-core "${CMAKE_SOURCE_DIR}/core/lib/secp256k1/lib/libsecp256k1.a")
 
