@@ -73,6 +73,8 @@ include(SociDependencies)
 # Installation
 ###############################################################################
 
+project(soci_core)
+
 if(APPLE OR CMAKE_SIZEOF_VOID_P EQUAL 4)
   set(SOCI_LIBDIR "lib")
 else()
