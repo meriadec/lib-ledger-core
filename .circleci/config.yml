@@ -24,7 +24,8 @@ jobs:
           command: yarn
       - run:
           name: test
-          command: node index.js && node sample/wallet_pool_test.js
+          command: |
+              node index.js && node sample/wallet_pool_test.js
           when: on_fail
-                - store_artifacts:
-                    path: ./sample/tmp/database_test_instance
+      - store_artifacts:
+          path: ./sample/tmp/database_test_instance
