@@ -17,6 +17,9 @@ jobs:
           command: |
             . .circleci/build_lib.sh
       - run:
+          command: |
+            . .circleci/logs.sh
+      - run:
           name: build module
           command: yarn
       - run:
