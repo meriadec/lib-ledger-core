@@ -208,6 +208,8 @@ target_link_libraries(ledger-core leveldb)
 target_link_libraries(ledger-core "${CMAKE_SOURCE_DIR}/core/lib/secp256k1/lib/libsecp256k1.a")
 
 link_directories("${CMAKE_SOURCE_DIR}/core/lib/secp256k1/lib")
+link_directories("${CMAKE_SOURCE_DIR}/core/lib/sqlite3")
+
 file(GLOB_RECURSE LEDGER_CORE_HEADERS
         "*.hpp"
         "*.h"
