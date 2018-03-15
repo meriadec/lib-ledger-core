@@ -25,6 +25,6 @@ jobs:
       - run:
           name: test
           command: node index.js && node sample/wallet_pool_test.js
-       - store_artifacts:
-                path: ./sample/tmp/database_test_instance
-                destination: database_test_instance
+          when: on_fail
+                - store_artifacts:
+                    path: ./sample/tmp/database_test_instance
