@@ -34,9 +34,7 @@
 #include <api/enum_from_string.hpp>
 #include <api/Currency.hpp>
 #include <api/BitcoinLikeFeePolicy.hpp>
-#include <stdint.h>
-#include <stdexcept>
-#include <iostream>
+
 
 using namespace soci;
 
@@ -105,48 +103,10 @@ void ledger::core::CurrenciesDatabaseHelper::getAllCurrencies(soci::session &sql
                 params.P2SHVersion = hex::toByteArray(row.get<std::string>(5));
                 params.XPUBVersion = hex::toByteArray(row.get<std::string>(6));
                 /*
-                 * Test for std::bad_cast exception thrown when running on Linux
+                 * On Linux, if we use int64_t, we get std::bad_cast exception thrown,
+                 * so we replace by a long long (which is supported by soci (soci::dt_long_long))
                  */
-                try {
-
-                    params.DustAmount = row.get<int64_t>(7);
-
-                } catch(std::runtime_error error) {
-
-                    std::cout<<"++++++++++++++++++++"<<std::endl;
-                    std::cout<<"CATCH"<<std::endl;
-                    std::cout<<"++++++++++++++++++++"<<std::endl;
-                    const soci::column_properties & props = row.get_properties(7);
-                    switch(props.get_data_type())
-                    {
-                        case soci::dt_double:
-                            std::cout<<"++++++++++++++++++++"<<std::endl;
-                            std::cout<<"double"<<std::endl;
-                            std::cout<<"++++++++++++++++++++"<<std::endl;
-                            params.DustAmount = row.get<double>(7);
-                            break;
-                        case soci::dt_integer:
-                            std::cout<<"++++++++++++++++++++"<<std::endl;
-                            std::cout<<"int"<<std::endl;
-                            std::cout<<"++++++++++++++++++++"<<std::endl;
-                            params.DustAmount = row.get<int>(7);
-                            break;
-                        case soci::dt_unsigned_long_long:
-                            std::cout<<"++++++++++++++++++++"<<std::endl;
-                            std::cout<<"unsigned long long"<<std::endl;
-                            std::cout<<"++++++++++++++++++++"<<std::endl;
-                            params.DustAmount = row.get<unsigned long long>(7);
-                            break;
-                        case soci::dt_long_long:
-                            std::cout<<"++++++++++++++++++++"<<std::endl;
-                            std::cout<<"long long"<<std::endl;
-                            std::cout<<"++++++++++++++++++++"<<std::endl;
-                            params.DustAmount = row.get<long long>(7);
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                params.DustAmount = row.get<long long>(7);
                 params.FeePolicy = api::from_string<api::BitcoinLikeFeePolicy>(row.get<std::string>(8));
                 params.UsesTimestampedTransaction = row.get<int>(9) == 1;
                 params.MessagePrefix = row.get<std::string>(10);
