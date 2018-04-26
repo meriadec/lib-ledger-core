@@ -29,6 +29,7 @@
  *
  */
 #include "BlockchainExplorerAccountSynchronizer.h"
+#include <iostream>
 #include <mutex>
 #include <async/wait.h>
 #include <utils/DateUtils.hpp>
@@ -123,17 +124,21 @@ namespace ledger {
 
         Future<Unit> BlockchainExplorerAccountSynchronizer::performSynchronization(
                 const std::shared_ptr<BitcoinLikeAccount> &account) {
+        std::cout << "Future<Unit> BlockchainExplorerAccountSynchronizer::performSynchronization( 1" << std::endl;
             auto buddy = std::make_shared<SynchronizationBuddy>();
 
+        std::cout << "Future<Unit> BlockchainExplorerAccountSynchronizer::performSynchronization( 2" << std::endl;
             buddy->account = account;
             buddy->preferences = std::static_pointer_cast<AbstractAccount>(account)->getInternalPreferences()
                                                                                    ->getSubPreferences(
                                                                                            "BlockchainExplorerAccountSynchronizer");
+        std::cout << "Future<Unit> BlockchainExplorerAccountSynchronizer::performSynchronization( 3" << std::endl;
             buddy->logger = account->logger();
             buddy->startDate = DateUtils::now();
             buddy->wallet = account->getWallet();
             buddy->configuration = std::static_pointer_cast<AbstractAccount>(account)->getWallet()
                                                                                      ->getConfiguration();
+        std::cout << "Future<Unit> BlockchainExplorerAccountSynchronizer::performSynchronization( 4" << std::endl;
             buddy->halfBatchSize = (uint32_t) buddy->configuration
                                                    ->getInt(api::Configuration::SYNCHRONIZATION_HALF_BATCH_SIZE)
                                                    .value_or(10);
@@ -141,6 +146,7 @@ namespace ledger {
             buddy->savedState = buddy->preferences
                                      ->getObject<BlockchainExplorerAccountSynchronizationSavedState>("state");
 
+        std::cout << "Future<Unit> BlockchainExplorerAccountSynchronizer::performSynchronization( 5" << std::endl;
             buddy->logger
                  ->info("Starting synchronization for account#{} ({}) of wallet {} at {}",
                         account->getIndex(),

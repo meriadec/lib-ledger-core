@@ -28,6 +28,7 @@
  * SOFTWARE.
  *
  */
+#include <iostream>
 #include "LedgerApiBitcoinLikeBlockchainExplorer.hpp"
 #include <fmt/format.h>
 #include <rapidjson/stringbuffer.h>
@@ -54,11 +55,15 @@ namespace ledger {
         }
 
         Future<void *> LedgerApiBitcoinLikeBlockchainExplorer::startSession() {
+            std::cout << "Future<void *> LedgerApiBitcoinLikeBlockchainExplorer::startSession() {" << std::endl;
             return _http
             ->GET(fmt::format("/blockchain/v2/{}/syncToken", _parameters.Identifier))
             .json().map<void *>(getContext(), [] (const HttpRequest::JsonResult& result) {
+                std::cout << "||||||||||||||||||||||||||||||||||||||||||" << std::endl;
                 auto& json = *std::get<1>(result);
-                return new std::string(json["token"].GetString(), json["token"].GetStringLength());
+                std::string* toto = new std::string(json["token"].GetString(), json["token"].GetStringLength());
+                std::cout << toto << std::endl;
+                return toto;
             });
         }
 

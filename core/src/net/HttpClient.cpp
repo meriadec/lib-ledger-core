@@ -28,6 +28,7 @@
  * SOFTWARE.
  *
  */
+#include <iostream>
 #include "HttpClient.hpp"
 
 namespace ledger {
@@ -74,16 +75,20 @@ namespace ledger {
         HttpRequest HttpClient::createRequest(api::HttpMethod method, const std::string &path,
                                               const std::experimental::optional<std::vector<uint8_t >> body,
                                               const std::unordered_map<std::string, std::string> &headers) {
+          std::cout << "creating a fucking request 1" << std::endl;
             auto url = _baseUrl;
+          std::cout << "creating a fucking request 2" << std::endl;
             if (path.front() == '/') {
                 url += std::string(path.data() + 1);
             } else {
                 url += path;
             }
+          std::cout << "creating a fucking request 3" << std::endl;
             auto fullheaders = _headers;
             for (const auto& item : headers) {
                 fullheaders[item.first] = item.second;
             }
+          std::cout << "creating a fucking request 4" << std::endl;
             return HttpRequest(
                     method,
                     url,
@@ -124,17 +129,33 @@ namespace ledger {
         }
 
         Future<std::shared_ptr<api::HttpUrlConnection>> HttpRequest::operator()() const {
+          std::cout << "OPERATOR" << std::endl;
+          std::cout << "core/src/net/HttpClient.cpp Future<std::shared_ptr<api::HttpUrlConnection>> HttpRequest::operator()() const { 1" << std::endl;
             auto request = std::dynamic_pointer_cast<ApiRequest>(toApiRequest());
+          std::cout << "core/src/net/HttpClient.cpp Future<std::shared_ptr<api::HttpUrlConnection>> HttpRequest::operator()() const { 2" << std::endl;
+
+          std::cout << "dumping the request" << std::endl;
+          std::cout << request->getMethod() << std::endl;
+          std::cout << request->getHeaders().size() << std::endl;
+          std::cout << request->getBody().size() << std::endl;
+          std::cout << request->getUrl() << std::endl;
+
             _client->execute(request);
+          std::cout << "core/src/net/HttpClient.cpp Future<std::shared_ptr<api::HttpUrlConnection>> HttpRequest::operator()() const { 3" << std::endl;
             _logger.foreach([&] (const std::shared_ptr<spdlog::logger>& logger) {
                 logger->info("{} {}", api::to_string(request->getMethod()), request->getUrl());
             });
+          std::cout << "core/src/net/HttpClient.cpp Future<std::shared_ptr<api::HttpUrlConnection>> HttpRequest::operator()() const { 4" << std::endl;
             auto logger = _logger;
+          std::cout << "core/src/net/HttpClient.cpp Future<std::shared_ptr<api::HttpUrlConnection>> HttpRequest::operator()() const { 5" << std::endl;
             return  request->getFuture().map<std::shared_ptr<api::HttpUrlConnection>>(_context, [=] (const std::shared_ptr<api::HttpUrlConnection>& connection) {
+          std::cout << "core/src/net/HttpClient.cpp Future<std::shared_ptr<api::HttpUrlConnection>> HttpRequest::operator()() const { 6" << std::endl;
                 logger.foreach([&] (const std::shared_ptr<spdlog::logger>& l) {
                     l->info("{} {} - {} {}", api::to_string(request->getMethod()), request->getUrl(),  connection->getStatusCode(), connection->getStatusText());
                 });
+          std::cout << "core/src/net/HttpClient.cpp operator 7" << std::endl;
                 if (connection->getStatusCode() < 200 || connection->getStatusCode() >= 300) {
+          std::cout << "core/src/net/HttpClient.cpp operator 8" << std::endl;
                     throw Exception(api::ErrorCode::HTTP_ERROR, connection->getStatusText(),
                                     Option<std::shared_ptr<void>>(std::static_pointer_cast<void>(connection)));
                 }
@@ -143,22 +164,30 @@ namespace ledger {
         }
 
         Future<HttpRequest::JsonResult> HttpRequest::json() const {
+        std::cout << "Future<HttpRequest::JsonResult> HttpRequest::json() const { 1" << std::endl;
             return operator()().recover(_context, [] (const Exception& exception) {
+        std::cout << "Future<HttpRequest::JsonResult> HttpRequest::json() const { 2" << std::endl;
+          std::cout << exception.getErrorCode() << std::endl;
                 if (exception.getErrorCode() == api::ErrorCode::HTTP_ERROR && exception.getUserData().nonEmpty()) {
                     return std::static_pointer_cast<api::HttpUrlConnection>(exception.getUserData().getValue());
                 }
+                std::cout << "blibliblibl" << std::endl;
                 throw exception;
             }).map<JsonResult>
                     (_context, [] (const std::shared_ptr<api::HttpUrlConnection>& co) {
+          std::cout << "hello i am in json 4" << std::endl;
                         std::shared_ptr<api::HttpUrlConnection> connection = co;
                         auto doc = std::make_shared<rapidjson::Document>();
                         HttpUrlConnectionInputStream is(connection);
                         doc->ParseStream(is);
+          std::cout << "hello i am in json 5" << std::endl;
                         std::shared_ptr<JsonResult> result(new std::tuple<std::shared_ptr<api::HttpUrlConnection>, std::shared_ptr<rapidjson::Document>>(std::make_tuple(connection, doc)));
                         if (connection->getStatusCode() < 200 || connection->getStatusCode() >= 300) {
+          std::cout << "hello i am in json 6" << std::endl;
                             throw Exception(api::ErrorCode::HTTP_ERROR, connection->getStatusText(),
                                             Option<std::shared_ptr<void>>(std::static_pointer_cast<void>(result)));
                         }
+          std::cout << "hello i am in json 7" << std::endl;
                         return std::make_tuple(connection, doc);
             });
         }
@@ -193,6 +222,7 @@ namespace ledger {
         }
 
         Future<std::shared_ptr<api::HttpUrlConnection>> HttpRequest::ApiRequest::getFuture() const {
+          std::cout << "GETTING FUTURE" << std::endl;
             return _promise.getFuture();
         }
     }
