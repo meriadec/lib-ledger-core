@@ -59,11 +59,24 @@ namespace ledger {
             return _http
             ->GET(fmt::format("/blockchain/v2/{}/syncToken", _parameters.Identifier))
             .json().map<void *>(getContext(), [] (const HttpRequest::JsonResult& result) {
-                std::cout << "||||||||||||||||||||||||||||||||||||||||||" << std::endl;
+                std::cout << "LedgerApiBitcoinLikeBlockchainExplorer.cpp : in the lambda of startSession before get" << std::endl;
                 auto& json = *std::get<1>(result);
-                std::string* toto = new std::string(json["token"].GetString(), json["token"].GetStringLength());
-                std::cout << toto << std::endl;
-                return toto;
+                std::cout << "LedgerApiBitcoinLikeBlockchainExplorer.cpp : in the lambda of startSession after get" << std::endl;
+
+                std::cout << "IsNull: " << json.IsNull() << std::endl;
+                std::cout << "IsFalse: " << json.IsFalse() << std::endl;
+                std::cout << "IsObject: " << json.IsObject() << std::endl;
+                std::cout << "IsArray: " << json.IsArray() << std::endl;
+                std::cout << "IsString: " << json.IsString() << std::endl;
+                std::cout << json.GetString() << std::endl;
+
+                auto tokenStr = json["token"].GetString();
+                std::cout << "LedgerApiBitcoinLikeBlockchainExplorer.cpp : tokenStr" << tokenStr << std::endl;
+
+                auto tokenLength = json["token"].GetStringLength();
+                std::cout << "LedgerApiBitcoinLikeBlockchainExplorer.cpp : tokenLength" << tokenLength << std::endl;
+
+                return new std::string(json["token"].GetString(), json["token"].GetStringLength());
             });
         }
 

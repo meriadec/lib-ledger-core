@@ -30,6 +30,7 @@
  */
 #include <iostream>
 #include "HttpClient.hpp"
+#include "../utils/hex.h"
 
 namespace ledger {
     namespace core {
@@ -149,7 +150,9 @@ namespace ledger {
             auto logger = _logger;
           std::cout << "core/src/net/HttpClient.cpp Future<std::shared_ptr<api::HttpUrlConnection>> HttpRequest::operator()() const { 5" << std::endl;
             return  request->getFuture().map<std::shared_ptr<api::HttpUrlConnection>>(_context, [=] (const std::shared_ptr<api::HttpUrlConnection>& connection) {
-          std::cout << "core/src/net/HttpClient.cpp Future<std::shared_ptr<api::HttpUrlConnection>> HttpRequest::operator()() const { 6" << std::endl;
+
+                std::cout << "core/src/net/HttpClient.cpp : HttpRequest::operator() map" << std::endl;
+
                 logger.foreach([&] (const std::shared_ptr<spdlog::logger>& l) {
                     l->info("{} {} - {} {}", api::to_string(request->getMethod()), request->getUrl(),  connection->getStatusCode(), connection->getStatusText());
                 });
@@ -175,19 +178,35 @@ namespace ledger {
                 throw exception;
             }).map<JsonResult>
                     (_context, [] (const std::shared_ptr<api::HttpUrlConnection>& co) {
-          std::cout << "hello i am in json 4" << std::endl;
+                        std::cout << "core/src/net/HttpClient.cpp : HttpRequest::json()" << std::endl;
                         std::shared_ptr<api::HttpUrlConnection> connection = co;
+
+                        // std::string toto = std::string("{ token: '5611bbb1-e5cf-4304-b35c-557fb48a39b4' }");
+
+                        auto bodyResult = connection->readBody();
+                        // std::cout << "bodyResult.error " << bodyResult.error << std::endl;
+                        // auto bodyResultStr = hex::toString((*(bodyResult.data)));
+                        auto bodyResultStr = std::string((char *)(*(bodyResult.data)).data());
+                        std::cout << "bodyResult.data " << (*(bodyResult.data)).size() << std::endl;
+                        std::cout << "bodyResult.data " << bodyResultStr << std::endl;
+
+                        // auto bodyResultStr1 = std::string((char *)(*(bodyResult.data)).data());
+                        // std::cout << "bodyResult1.data " << bodyResultStr1 << std::endl;
+
+                        std::cout << "core/src/net/HttpClient.cpp : HttpRequest::json() before rapid json" << std::endl;
                         auto doc = std::make_shared<rapidjson::Document>();
                         HttpUrlConnectionInputStream is(connection);
+                        std::cout << "core/src/net/HttpClient.cpp : HttpRequest::json() before parse stream" << std::endl;
                         doc->ParseStream(is);
-          std::cout << "hello i am in json 5" << std::endl;
+                        std::cout << "core/src/net/HttpClient.cpp : HttpRequest::json() after parse stream" << std::endl;
                         std::shared_ptr<JsonResult> result(new std::tuple<std::shared_ptr<api::HttpUrlConnection>, std::shared_ptr<rapidjson::Document>>(std::make_tuple(connection, doc)));
+                        std::cout << "core/src/net/HttpClient.cpp : HttpRequest::json() getStatus: " << connection->getStatusCode() << std::endl;
                         if (connection->getStatusCode() < 200 || connection->getStatusCode() >= 300) {
           std::cout << "hello i am in json 6" << std::endl;
                             throw Exception(api::ErrorCode::HTTP_ERROR, connection->getStatusText(),
                                             Option<std::shared_ptr<void>>(std::static_pointer_cast<void>(result)));
                         }
-          std::cout << "hello i am in json 7" << std::endl;
+                        std::cout << "core/src/net/HttpClient.cpp : HttpRequest::json() after get status " << std::endl;
                         return std::make_tuple(connection, doc);
             });
         }
